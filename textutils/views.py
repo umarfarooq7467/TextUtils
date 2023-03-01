@@ -20,14 +20,14 @@ def analyze(request):
         for char in djtext:
             if char not in punctuations:
                 analyzed = analyzed + char
-        params = {'purpose':'Remove Punctuations', 'analyzed_text':analyzed}
+        context = {'purpose':'Remove Punctuations', 'analyzed_text':analyzed}
         djtext = analyzed
 
     if fullcaps == 'on':
         analyzed = ""
         for char in djtext:
             analyzed = analyzed + char.upper()
-        params = {'purpose':'Change all the charcter in uppercase', 'analyzed_text':analyzed}
+        context = {'purpose':'Change all the charcter in uppercase', 'analyzed_text':analyzed}
         djtext = analyzed
 
     if newlineremover == 'on':
@@ -37,7 +37,7 @@ def analyze(request):
                 analyzed = analyzed + char
             else:
                 print("no")
-        params = {'purpose':'Removed New Lines', 'analyzed_text':analyzed}
+        context = {'purpose':'Removed New Lines', 'analyzed_text':analyzed}
         djtext = analyzed
 
     if extraspaceremover == 'on':
@@ -45,16 +45,16 @@ def analyze(request):
         for index, char in enumerate(djtext):
             if not(djtext[index] == ' ' and djtext[index+1] == ' '):
                 analyzed = analyzed + char
-        params = {'purpose':'Removed New Lines', 'analyzed_text':analyzed}
+        context = {'purpose':'Removed New Lines', 'analyzed_text':analyzed}
         djtext = analyzed
 
     if charcount == 'on':
         analyzed = ''
         for char in djtext:
             analyzed = len(djtext)
-        params = {'purpose':'Total Characters', 'analyzed_text':analyzed}
+        context = {'purpose':'Total Characters', 'analyzed_text':analyzed}
 
     if removepunc != 'on' and fullcaps != 'on' and newlineremover != 'on' and extraspaceremover != 'on' and charcount != 'count':
         return HttpResponse("Please Chose A Method Text You Want To Apply!")
     
-    return render(request, 'analyze.html', params)
+    return render(request, 'analyze.html', context)
